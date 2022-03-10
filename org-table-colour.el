@@ -51,11 +51,11 @@ See `org-table-colour--colour-by-correlation' for an example."
   (org-table-goto-column x)
   (when-let* ((cell (org-table-get y x))
               (nmbr (string-to-number cell))
-              (face (funcall get-face nmbr)))
-    (when face
-      (let ((overlay (make-overlay (point)
-                                   (progn (org-table-end-of-field 1) (point)))))
-        (overlay-put overlay 'face face)))))
+              (face (funcall get-face nmbr))
+              (over (make-overlay (point)
+                                  (progn (org-table-end-of-field 1)
+                                         (point)))))
+    (overlay-put over 'face face)))
 
 (defun org-table-colour--colour-by-correlation (num)
   "Colour a table cell NUM value assuming it's from a correlation matrix.
