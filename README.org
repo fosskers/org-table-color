@@ -1,0 +1,73 @@
+#+TITLE: org-table-colour
+
+This Emacs Lisp package provides extensions to =org-table= that allow one to
+colour the cells of a Table based on their values.
+
+* Table of Contents :TOC_2_gh:
+- [[#installation][Installation]]
+  - [[#doom-emacs][Doom Emacs]]
+- [[#usage][Usage]]
+  - [[#custom-colouring][Custom Colouring]]
+  - [[#built-in-styles][Built-in Styles]]
+
+* Installation
+
+** Doom Emacs
+
+Place the following in your =packages.el=:
+
+#+begin_src emacs-lisp
+(package! org-table-colour
+  :recipe (:host github :repo "fosskers/org-table-colour"))
+#+end_src
+
+And then in your =config.el=:
+
+#+begin_src emacs-lisp
+(use-package! org-table-colour
+  :after org-table)
+#+end_src
+
+* Usage
+
+No matter which approach you choose below, since the styles applied by this
+package are implemented as [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlays.html][Overlays]], they aren't preserved by saving the buffer.
+The next time you freshly reopen the file, the styles will be gone and you will
+have to call your functions again.
+
+** Custom Colouring
+
+The principal function exposed by this package is ~org-table-colour~, and its only
+argument is a function =GET-FACE= which creates an [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces.html][Emacs "face"]] based on a
+numerical table cell value. Here is an example of a colouring function you could
+write:
+
+#+begin_src emacs-lisp
+(defun colour-by-correlation (num)
+  "Colour a table cell NUM value assuming it's from a correlation matrix.
+Yields a plist that represents a face."
+  (cond ((>= num 0.5) '(:foreground "black" :background "green"))
+        ((>= num 0.3) '(:foreground "black" :background "#90EE90"))
+        ((<= num -0.5) '(:foreground "black" :background "red"))
+        ((<= num -0.3) '(:foreground "black" :background "orange"))))
+#+end_src
+
+Note that it yields ~nil~ if no ~cond~ condition matched, and that's okay. If ~nil~,
+no cell styling will occur.
+
+You could then write a function that does your colouring:
+
+#+begin_src emacs-lisp
+(defun colour-my-table ()
+  (interactive)
+  (org-table-colour #'colour-by-correlation))
+#+end_src
+
+And call this interactively while your =(point)= is on a table.
+
+** Built-in Styles
+
+The following functions are built in to "just work" if you don't want to define
+your own styling schemes:
+
++ ~org-table-colour-correlation-matrix~: Assumes cell values are between -1 and 1.

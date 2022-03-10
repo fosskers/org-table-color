@@ -22,7 +22,7 @@
 (require 'org-table)
 
 ;;;###autoload
-(defun org-table-colour-table (get-face)
+(defun org-table-colour (get-face)
   "Colour the 'org-mode' table at 'point', given a GET-FACE function.
 
 GET-FACE must accept a single numerical argument (the value of
@@ -43,7 +43,7 @@ See `org-table-colour--colour-by-correlation' for an example."
 (defun org-table-colour-correlation-matrix ()
   "Colour the 'org-mode' table at 'point' that represents a Correlation Matrix."
   (interactive)
-  (org-table-colour-table #'org-table-colour--colour-by-correlation))
+  (org-table-colour #'org-table-colour--colour-by-correlation))
 
 (defun org-table-colour--colour-cell (get-face x y)
   "Colour the cell via a GET-FACE function at the given X and Y coordinates."
