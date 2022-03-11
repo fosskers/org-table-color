@@ -6,10 +6,11 @@
 ;; Maintainer: Colin Woodbury <colin@fosskers.ca>
 ;; Created: March 10, 2022
 ;; Modified: March 10, 2022
-;; Version: 0.0.1
+;; Version: 1.0.0
 ;; Keywords: data faces lisp
 ;; Homepage: https://github.com/fosskers/org-table-color
 ;; Package-Requires: ((emacs "26.1"))
+;; SPDX-License-Identifier: GPL-3.0-or-later
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
