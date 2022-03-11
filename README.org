@@ -38,14 +38,13 @@ have to call your functions again.
 ** Custom Colouring
 
 The principal function exposed by this package is ~org-table-colour~, and its only
-argument is a function =GET-FACE= which creates an [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces.html][Emacs "face"]] based on a
-numerical table cell value. Here is an example of a colouring function you could
-write:
+argument is a function =GET-FACE= which creates an [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces.html][Emacs Face]] based on a numerical
+table cell value. Here is an example of a colouring function you could write:
 
 #+begin_src emacs-lisp
 (defun colour-by-correlation (num)
   "Colour a table cell NUM value assuming it's from a correlation matrix.
-Yields a plist that represents a face."
+Yields a plist that represents an anonymous face."
   (cond ((>= num 0.5) '(:foreground "black" :background "green"))
         ((>= num 0.3) '(:foreground "black" :background "#90EE90"))
         ((<= num -0.5) '(:foreground "black" :background "red"))
@@ -63,7 +62,12 @@ You could then write a function that does your colouring:
   (org-table-colour #'colour-by-correlation))
 #+end_src
 
-And call this interactively while your =(point)= is on a table.
+And call this interactively while your =(point)= is on a table, or perhaps try an
+auto-refresh:
+
+#+begin_src emacs-lisp
+(add-hook 'org-ctrl-c-ctrl-c-hook #'colour-my-table)
+#+end_src
 
 ** Built-in Styles
 
@@ -71,3 +75,5 @@ The following functions are built in to "just work" if you don't want to define
 your own styling schemes:
 
 + ~org-table-colour-correlation-matrix~: Assumes cell values are between -1 and 1.
+
+Contributions are welcome to offer more builtins!
